@@ -1,0 +1,54 @@
+:root{
+  --bg: #fafafa;
+  --fg: #222;
+  --muted:#666;
+  --card:#fff;
+  --shadow: rgba(0,0,0,.08);
+  --radius: 16px;
+  --maxw: 980px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial}
+img{max-width:100%;height:auto;display:block}
+a{color:#0a58ca;text-decoration:none}
+a:hover{text-decoration:underline}
+
+.site-header,.site-footer{
+  max-width:var(--maxw);margin:auto;padding:16px 20px;
+}
+.site-header{display:flex;justify-content:flex-start;align-items:center}
+.brand{font-weight:700;font-size:20px}
+
+main{max-width:var(--maxw);margin:0 auto;padding:10px 20px 40px}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:18px;
+}
+
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:0 10px 20px var(--shadow);
+  overflow:hidden;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.card:hover{transform:translateY(-2px);box-shadow:0 14px 24px var(--shadow)}
+
+.card .thumb{aspect-ratio:4/3;object-fit:cover}
+.card .body{padding:12px 14px}
+.card .meta{font-size:12px;color:var(--muted)}
+
+.entry-card{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:0 10px 20px var(--shadow);
+  padding:18px;
+}
+.entry-figure{margin:0 0 12px 0}
+.entry-text{white-space:pre-wrap;font-size:18px}
+.small{font-size:12px;color:var(--muted)}
+.details{display:grid;grid-template-columns: 1fr; gap:8px;margin:12px 0}
+.details div{display:flex;gap:8px;align-items:baseline}
+.details .label{min-width:120px;color:var(--muted)}
