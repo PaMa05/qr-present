@@ -38,7 +38,7 @@ import qrcode
 # ---------------- Config ----------------
 INPUT_XLSX = "entries.xlsx"
 IMAGES_DIR = "images"
-OUT_DIR = "site"
+OUT_DIR = "docs"
 MAX_IMAGE_WIDTH = 1600
 THUMB_WIDTH = 600
 
