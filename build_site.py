@@ -60,9 +60,9 @@ main{max-width:var(--maxw);margin:0 auto;padding:10px 20px 40px}
 .entry-nav{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
 """
 
-INDEX_TEMPLATE = """<!doctype html><html lang="de"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Übersicht</title><style>{css}</style></head><body><header class="site-header"><div class="brand">🎁 QR‑Geschenk</div></header><main><section><h1>Alle Einträge</h1><div class="grid">{cards}</div></section></main><footer class="site-footer"><p>Erstellt mit ❤️ fürs Geschenk</p></footer></body></html>"""
+INDEX_TEMPLATE = """<!doctype html><html lang="de"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Übersicht</title><style>{css}</style></head><body><header class="site-header"><div class="brand">🎁 Für Andreas</div></header><main><section><h1>Alle Einträge</h1><div class="grid">{cards}</div></section></main><footer class="site-footer"><p>Erstellt mit ❤️ von ChIPS Geschenk</p></footer></body></html>"""
 CARD_TEMPLATE = """<a class="card" href="{href}"><img class="thumb" src="{thumb_src}" alt=""><div class="body"><div class="meta"><span>#{num}</span><span>{date}</span></div><div>{preview}</div></div></a>"""
-ENTRY_TEMPLATE = """<!doctype html><html lang="de"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Eintrag {num}</title><style>{css}</style></head><body><header class="site-header"><a href="../index.html" class="brand">🎁 QR‑Geschenk</a></header><main><article class="entry"><div class="entry-card"><figure class="entry-figure"><img src="../assets/images/{image}" alt=""></figure><div class="entry-meta">{date}</div><div class="entry-text">{text_html}</div></div><nav class="entry-nav"><a href="../index.html">← Zurück zur Übersicht</a>{prev_link}{next_link}</nav></article></main><footer class="site-footer"><p>Erstellt mit ❤️ fürs Geschenk</p></footer></body></html>"""
+ENTRY_TEMPLATE = """<!doctype html><html lang="de"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Eintrag {num}</title><style>{css}</style></head><body><header class="site-header"><a href="../index.html" class="brand">🎁 Für Andreas</a></header><main><article class="entry"><div class="entry-card"><figure class="entry-figure"><img src="../assets/images/{image}" alt=""></figure><div class="entry-meta">{date}</div><div class="entry-text">{text_html}</div></div><nav class="entry-nav"><a href="../index.html">← Zurück zur Übersicht</a>{prev_link}{next_link}</nav></article></main><footer class="site-footer"><p>Erstellt mit ❤️ von ChiPS</p></footer></body></html>"""
 
 def ensure_dir(p: Path): p.mkdir(parents=True, exist_ok=True)
 
@@ -291,9 +291,11 @@ def main():
     total = len(entries)
     for i, m in enumerate(entries):
         prev_link = f' <a href="{entries[i-1]["href"]}">« Vorheriger</a>' if i>0 else ""
+        prev_link = prev_link.replace("e/", "")
         next_link = f' <a href="{entries[i+1]["href"]}">Nächster »</a>' if i<total-1 else ""
+        next_link = next_link.replace("e/", "")
         html = ENTRY_TEMPLATE.format(css=CSS, num=m["num"], image=m["image"], date=m["date"],
-                                     text_html=md_to_html(m["desc"]), prev_link=prev_link, next_link=next_link)
+                                     text_html=m["desc"], prev_link=prev_link, next_link=next_link)
         (out_dir / m["href"]).write_text(html, encoding="utf-8")
 
     # Build index
@@ -301,7 +303,7 @@ def main():
     for m in entries:
         preview = (m["desc"].splitlines()[0] if m["desc"] else "").strip()
         if len(preview) > 120: preview = preview[:120] + "…"
-        cards.append(CARD_TEMPLATE.format(href=m["href"], thumb_src=m["thumb"], num=m["num"], date=m["date"], preview=md_to_html(preview)))
+        cards.append(CARD_TEMPLATE.format(href=m["href"], thumb_src=m["thumb"], num=m["num"], date=m["date"], preview=preview))
     (out_dir / "index.html").write_text(INDEX_TEMPLATE.format(css=CSS, cards="".join(cards)), encoding="utf-8")
 
     # Optional QR pipeline (off-page)

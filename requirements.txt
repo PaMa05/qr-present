@@ -1,0 +1,5 @@
+pandas
+pillow
+qrcode[pil]
+jinja2
+openpyxl
